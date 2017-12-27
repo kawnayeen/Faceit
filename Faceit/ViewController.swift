@@ -18,6 +18,12 @@ class ViewController: UIViewController {
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(toggleEyes(byReactingTo:)))
             tapRecognizer.numberOfTapsRequired = 1
             faceView.addGestureRecognizer(tapRecognizer)
+            let swipeUpRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(increaseHappiness))
+            swipeUpRecognizer.direction = .up
+            faceView.addGestureRecognizer(swipeUpRecognizer)
+            let swipeDownRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(decreaseHappiness))
+            swipeDownRecognizer.direction = .down
+            faceView.addGestureRecognizer(swipeDownRecognizer)
             updateUI()
         }
     }
@@ -27,6 +33,14 @@ class ViewController: UIViewController {
             let eyes: FacialExpression.Eyes = (expression.eyes == .closed) ? .open : .closed
             expression = FacialExpression(eyes: eyes, mouth: expression.mouth)
         }
+    }
+    
+    func increaseHappiness() {
+        expression = expression.happier
+    }
+    
+    func decreaseHappiness() {
+        expression = expression.sadder
     }
     
     var expression = FacialExpression(eyes: .open, mouth: .frown){
